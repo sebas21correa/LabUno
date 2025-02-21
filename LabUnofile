@@ -1,0 +1,55 @@
+# Calculo de frecuencia cardiaca maxima
+def frecuenciaM(edad):
+    frecuencia = 208 - 0.7 * edad
+    return frecuencia
+
+# Zona de entrenamiento
+def zonaEntre(frecuencia, frecuenciaM): 
+    calculo = int((frecuencia / frecuenciaM) * 100)
+    
+    if calculo < 50: 
+        print(f"Zona 0: No cumple la zona de entrenamiento (por debajo de 50%) {calculo}%")
+        return 0
+    elif 50 <= calculo < 60:
+        print(f"Zona 1: Recuperación (50-60%) {calculo}%")
+        return 1
+    elif 60 <= calculo < 70:
+        print(f"Zona 2: Resistencia básica (60-70%) {calculo}%")
+        return 2
+    elif 70 <= calculo < 80:
+        print(f"Zona 3: Aeróbica (70-80%) {calculo}%")
+        return 3
+    elif 80 <= calculo < 90:
+        print(f"Zona 4: Umbral anaeróbico (80-90%) {calculo}%")
+        return 4
+    else:
+        print(f"Zona 5: Esfuerzo máximo (90-100%) {calculo}%")
+        return 5
+
+# zona 2
+def ZDos(edad):
+    hr = []
+    frecuenciam = int(frecuenciaM(edad))
+    for i in range(80, frecuenciam):
+        porcen = int((i / frecuenciam) * 100)
+        if 60 <= porcen < 70:
+            hr.append(i)
+    return hr
+
+
+edad = int(input("Por favor ingrese su edad: "))
+freRecom = ZDos(edad)
+print(f"Las frecuencias recomendadas respecto a su edad para un entrenamiento de zona 2 están en un rango de: ({freRecom[0]}-{freRecom[-1]})")
+
+nEntre = int(input("Ingrese el número de entrenamientos realizados: "))
+zonas = [0, 0, 0, 0, 0, 0]  
+
+for i in range(nEntre):
+    frecuencia = int(input(f"Por favor ingrese la frecuencia cardiaca del entrenamiento número {i + 1}: "))
+    frecuenciam = frecuenciaM(edad)
+    zona = zonaEntre(frecuencia, frecuenciam)
+    
+    zonas[zona] += 1  
+for i in range(6):
+    porcentaje = (zonas[i] / nEntre) * 100
+    print(f"Zona {i}: {porcentaje}%")
